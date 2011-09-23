@@ -25,7 +25,7 @@ class __ajax extends xmd
 		parent::__construct();
 		
 		$this->_m(array(
-			'create' => w('create_brand create_model create_domain create_workgroup create_contact list_prov list_tech create_brand_id models_for_features'))
+			'create' => w('create_contact list_prov list_tech ticket_members'))
 		);
 	}
 	
@@ -63,36 +63,6 @@ class __ajax extends xmd
 		return $this->_dom_ul_id($contacts);
 	}
 	
-	protected function _create_create_domain()
-	{
-		$domain = $this->v('domain', '');
-		if (!f($domain))
-		{
-			$this->e();
-		}
-		
-		$sql = "SELECT *
-			FROM _pc_domains
-			WHERE dom_text LIKE '??%'";
-		$list = _rowset(sql_filter($sql, $domain), 'dom_id', 'dom_text');
-		return $this->_dom_ul_id($list);
-	}
-	
-	protected function _create_create_workgroup()
-	{
-		$workgroup = $this->v('workgroup', '');
-		if (!f($workgroup))
-		{
-			$this->e();
-		}
-		
-		$sql = "SELECT *
-			FROM _pc_workgroups
-			WHERE wg_text LIKE '??%'";
-		$list = _rowset(sql_filter($sql, $workgroup), 'wg_id', 'wg_text');
-		return $this->_dom_ul_id($list);
-	}
-	
 	protected function _create_list_prov()
 	{
 		$prov = $this->v('prov', '');
@@ -106,37 +76,6 @@ class __ajax extends xmd
 			WHERE prov_name LIKE '??%'";
 		$list = _rowset(sql_filter($sql, $prov), 'prov_id', 'prov_name');
 		return $this->_dom_ul_id($list);
-	}
-	
-	protected function _create_list_tech()
-	{
-		$tech = $this->v('tech', '');
-		if (!f($tech))
-		{
-			$this->e();
-		}
-		
-		$sql = "SELECT pc_technology
-			FROM _pc
-			WHERE pc_technology LIKE '??%'";
-		$list = _rowset(sql_filter($sql, $tech), false, 'pc_technology');
-		return $this->_dom_ul($list);
-	}
-	
-	protected function _create_models_for_features()
-	{
-		$v = $this->__(array('brand' => 0, 'model' => ''));
-		if (!f($v['brand']) || !f($v['model']))
-		{
-			$this->e();
-		}
-		
-		$sql = "SELECT model_name
-			FROM _models
-			WHERE model_brand = ?
-				AND model_name LIKE '??%'";
-		$list = _rowset(sql_filter($sql, $v['brand'], $v['model']), false, 'model_name');
-		return $this->_dom_ul($list);
 	}
 	
 	protected function _ticket_members()

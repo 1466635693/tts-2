@@ -16,6 +16,10 @@
 
 <!-- INCLUDE js/jq-upload.js -->
 
+<!-- INCLUDE js/jq-color.js -->
+
+<!-- INCLUDE js/jq-crop.js -->
+
 <!-- INCLUDE js/f.js -->
 
 <!-- INCLUDE js/common.js -->

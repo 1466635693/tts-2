@@ -181,12 +181,6 @@ abstract class project
 		
 		foreach ($tables as $i => $row)
 		{
-			// TODO: Create components_features
-			if ($row['table_alias'] == 'components_features')
-			{
-				continue;
-			}
-			
 			_style('search_tables', array(
 				'V_VALUE' => $row['table_id'],
 				'V_NAME' => _lang('TABLES_' . $row['table_alias']))
@@ -219,29 +213,6 @@ abstract class project
 		}
 	
 		return;
-	}
-	
-	protected function computer_field($value, $field, $error = '')
-	{
-		if (!f($value) || !f($field))
-		{
-			return false;
-		}
-		
-		$sql = 'SELECT c.a_id
-			FROM _computer c, _computer_fields f
-			WHERE c.a_value = ?
-				AND f.field_alias = ?
-				AND c.a_field = f.field_id';
-		if (_fieldrow(sql_filter($sql, $value, $field)))
-		{
-			if (f($error))
-			{
-				$this->_error($error, false);
-			}
-			return false;
-		}
-		return true;
 	}
 	
 	protected function _relation_value(&$row)
@@ -286,8 +257,7 @@ abstract class project
 	
 	protected function parse_calendar($field, &$value)
 	{
-		switch ($field)
-		{
+		switch ($field) {
 			case 'calendar':
 				$e = explode('/', $value);
 				$value = _timestamp($e[1], $e[0], $e[2]);
@@ -298,8 +268,7 @@ abstract class project
 	
 	protected function to_calendar($field, &$value)
 	{
-		switch ($field)
-		{
+		switch ($field) {
 			case 'calendar':
 				$value = _format_date($value, 'd/m/Y');
 				break;

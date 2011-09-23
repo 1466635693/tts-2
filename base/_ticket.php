@@ -513,7 +513,6 @@ class __ticket extends xmd
 			}
 		}
 		
-		// TODO: Explain this error friendly
 		if (!$d['ticket_access']) _fatal();
 		
 		$d['ticket_control'] = (!$d['ticket_owner'] || $user->v('is_founder')) ? true : false;
@@ -615,7 +614,7 @@ class __ticket extends xmd
 			);
 		}
 		
-		$sql = 'SELECT *
+		$sql = 'SELECT attach_id, attach_name, attach_extension, attach_size, attach_time
 			FROM _tickets_attach
 			WHERE attach_ticket = ?
 			ORDER BY attach_name';
@@ -625,11 +624,25 @@ class __ticket extends xmd
 		{
 			if (!$i) _style('attachments');
 			
-			_style('attachments.row', array(
-				'ATTACH_LINK' => _link('space/f/' . $row['attach_name'], false, false),
-				'ATTACH_NAME' => $row['attach_name'],
-				'ATTACH_SIZE' => _filesize($row['attach_size']))
-			);
+			switch ($row['attach_extension']) {
+				case 'jpeg':
+				case 'jpg':
+				case 'gif':
+				case 'png':
+					_style('attachments.image', array(
+						'ATTACH_LINK' => _link('space/f/' . $row['attach_name'], false, false),
+						'ATTACH_NAME' => $row['attach_name'],
+						'ATTACH_SIZE' => _filesize($row['attach_size']))
+					);
+					break;
+				default:
+					_style('attachments.normal', array(
+						'ATTACH_LINK' => _link('space/f/' . $row['attach_name'], false, false),
+						'ATTACH_NAME' => $row['attach_name'],
+						'ATTACH_SIZE' => _filesize($row['attach_size']))
+					);
+					break;
+			}
 		}
 		
 		$author_fullname = _fullname($ticket_author);
