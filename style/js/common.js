@@ -6,6 +6,55 @@ $(function() {
 	$('#e_notice').hide();
 });
 
+var calls = 0;
+var jcrop_api, el_width;
+
+function updateCoords(c) {
+	$('#x').text(c.x);
+	$('#y').text(c.y);
+	$('#w').text(c.w);
+	$('#h').text(c.h);
+}
+
+function image_scontrols() {
+	alert('show controls');
+}
+
+function image_hcontrols() {
+	alert('hide controls');
+}
+
+function _crop() {
+	if (calls) {
+		calls = 0;
+		return false;
+	}
+	
+	el_width = $('#attachments').width() - 12;
+	calls++;
+	
+	if (jcrop_api) {
+		jcrop_api.destroy();
+		$('#attachments li img').attr('width', el_width);
+	}
+	
+	$('#attachments li a').click(function() {
+		return false;
+	});
+	
+	$('#attachments li img').Jcrop({
+		bgColor: 'white',
+		bgOpacity: .5,
+		sideHandles: true,
+		onChange: updateCoords,
+		onSelect: image_scontrols,
+		onRelease: image_hcontrols,
+		boxWidth: el_width
+	}, function() {
+		jcrop_api = this;
+	});
+}
+
 $.extend({
 	k: function(a) {
 		return $.ui.keyCode[a]; 

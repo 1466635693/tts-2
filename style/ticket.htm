@@ -255,7 +255,7 @@
 	<!-- BEGIN attachments -->
 	<div id="attach_container" class="m_top_mid _attach">
 		<p><strong>{L_TICKET_ATTACHMENTS}</strong></p>
-		<ul id="attachments">
+		<ul id="attachments" class="ul_none">
 			<!-- BEGIN image -->
 		<li><a href="{image.ATTACH_LINK}"><img src="{image.ATTACH_LINK}" alt="" /></a></li>
 		<!-- END image -->
@@ -265,54 +265,19 @@
 		</ul>
 	</div>
 	
-	<div id="scalex">500</div>
-	<div id="scaley">500</div>
-	<div id="x">0</div>
-	<div id="y">0</div>
-	<div id="w">0</div>
-	<div id="h">0</div>
+	<div class="z">
+		<div id="scalex">500</div>
+		<div id="scaley">500</div>
+		<div id="x">0</div>
+		<div id="y">0</div>
+		<div id="w">0</div>
+		<div id="h">0</div>
+	</div>
 	
 	<script type="text/javascript">
 	//<![CDATA[
-	function updateCoords(c) {
-		$('#x').text(c.x);
-		$('#y').text(c.y);
-		$('#w').text(c.w);
-		$('#h').text(c.h);
-	};
-	
-	var el_crop = false;
-	
-	function _crop() {
-		var el_width = $('#attach_container').innerWidth() - 50;
-		
-		if (el_crop) {
-			//el_crop.destroy();
-			//el_crop = false;
-			$('#attachments li img').attr('src', $('#attachments li img').attr('src'));
-			$('#attachments li img').each(function() {
-				alert($(this).attr('src'));
-			});
-		}
-		
-		el_crop = $('#attachments li img').Jcrop({
-			bgColor: 'white',
-			bgOpacity: .5,
-			sideHandles: true,
-			onChange: updateCoords,
-			boxWidth: el_width
-		});
-	}
-	
 	$(window).resize(_crop);
-	
-	$(function() {
-		$('#attachments li a').click(function() {
-			return false;
-		});
-		
-		_crop();
-	});
+	$(_crop());
 	//]]>
 	</script>
 	<!-- END attachments -->
